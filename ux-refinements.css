@@ -820,7 +820,7 @@
     .hero-player-card {
         max-width: 100% !important;
         max-height: 92vh !important;
-        border-radius: 16px 16px 0 0 !important;
+        border-radius: 20px !important;
         overflow-y: auto !important;
     }
 
@@ -833,7 +833,7 @@
     }
 
     .player-body {
-        padding: 10px 16px 14px !important;
+        padding: 10px 16px 20px !important;
     }
 
     .player-body .ep-title,
