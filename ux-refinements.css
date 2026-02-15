@@ -847,26 +847,42 @@
     }
 
     .controls-center .btn-icon-2026 {
-        width: 32px !important;
-        height: 32px !important;
+        width: 28px !important;
+        height: 28px !important;
         flex-shrink: 0;
     }
 
     .controls-center .btn-icon-2026 svg {
-        width: 22px !important;
-        height: 22px !important;
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    /* Hero controls — wrap volume/speed above transport */
+    .controls-main {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 8px !important;
     }
 
     .controls-center {
+        order: 1;
+        width: 100%;
         overflow: visible !important;
         flex-wrap: nowrap !important;
-        gap: 2px !important;
-        padding: 0 8px !important;
+        gap: 4px !important;
+        justify-content: center !important;
+        padding: 0 !important;
     }
 
     .hero-player-card .controls-center {
         max-width: 100%;
-        justify-content: center;
+    }
+
+    /* Skip button SVGs smaller on mobile hero */
+    #btn-back svg,
+    #btn-fwd svg {
+        width: 28px !important;
+        height: 28px !important;
     }
 
     /* Episode cards */
@@ -958,44 +974,32 @@
         pointer-events: auto;
     }
 
-    /* Share Button on Cards — inline with queue + btn, top-right of image */
+    /* Share Button on Cards — matches queue button style exactly */
     .card-share-btn {
         position: absolute;
-        top: 12px;
-        right: 52px;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background: rgba(0, 0, 0, 0.45);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        top: 16px;
+        right: 68px;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: rgba(26, 32, 44, 0.6);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: rgba(255, 255, 255, 0.85);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        transition: all 0.2s ease;
-        opacity: 0;
-        z-index: 5;
+        color: var(--text-secondary);
+        border: 1.5px solid rgba(247, 250, 252, 0.1);
+        transition: all 200ms ease;
+        z-index: 2;
         cursor: pointer;
     }
 
-    .episode-card:hover .card-share-btn {
-        opacity: 1;
-    }
-
     .card-share-btn:hover {
-        background: rgba(64, 156, 255, 0.7);
-        border-color: rgba(64, 156, 255, 0.4);
-        transform: scale(1.05);
-        color: white;
-    }
-
-    /* Mobile: always show share btn */
-    @media (hover: none) {
-        .card-share-btn {
-            opacity: 1;
-        }
+        background: rgba(26, 32, 44, 0.85);
+        border-color: #409CFF;
+        color: #409CFF;
+        transform: scale(1.1);
     }
 
     /* New Feature: Speed Control in Hero */
