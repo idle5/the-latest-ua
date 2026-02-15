@@ -73,6 +73,37 @@
 }
 
 /* ============================================
+   SHARE BUTTON (Episode Cards)
+   Identical to queue button, positioned to its left
+   ============================================ */
+.card-share-btn {
+    position: absolute;
+    top: 16px;
+    right: 68px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(26, 32, 44, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(247, 250, 252, 0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 200ms ease;
+    z-index: 2;
+    color: var(--text-secondary);
+}
+
+.card-share-btn:hover {
+    background: rgba(26, 32, 44, 0.85);
+    border-color: #409CFF;
+    color: #409CFF;
+    transform: scale(1.1);
+}
+
+/* ============================================
    EPISODE CARD - STATE BORDERS
    ============================================ */
 .episode-card {
@@ -842,47 +873,56 @@
     }
 
     .controls-center .btn-play {
-        width: 44px !important;
-        height: 44px !important;
+        width: 40px !important;
+        height: 40px !important;
     }
 
     .controls-center .btn-icon-2026 {
-        width: 28px !important;
-        height: 28px !important;
+        width: 26px !important;
+        height: 26px !important;
         flex-shrink: 0;
     }
 
     .controls-center .btn-icon-2026 svg {
-        width: 20px !important;
-        height: 20px !important;
+        width: 18px !important;
+        height: 18px !important;
     }
 
-    /* Hero controls — wrap volume/speed above transport */
+    /* Hero controls — single row: volume | transport | speed */
     .controls-main {
-        flex-wrap: wrap !important;
-        justify-content: center !important;
-        gap: 8px !important;
+        flex-wrap: nowrap !important;
+        justify-content: space-between !important;
+        gap: 4px !important;
+        align-items: center !important;
+    }
+
+    /* Hide volume slider on mobile — just the mute/unmute button */
+    #vol-slider {
+        display: none !important;
+    }
+
+    /* Hide the speed dropdown on mobile — keep the 1x button only */
+    #speed-select {
+        display: none !important;
+    }
+
+    .controls-main>div:last-child {
+        display: none !important;
     }
 
     .controls-center {
-        order: 1;
-        width: 100%;
         overflow: visible !important;
         flex-wrap: nowrap !important;
-        gap: 4px !important;
+        gap: 2px !important;
         justify-content: center !important;
         padding: 0 !important;
-    }
-
-    .hero-player-card .controls-center {
-        max-width: 100%;
     }
 
     /* Skip button SVGs smaller on mobile hero */
     #btn-back svg,
     #btn-fwd svg {
-        width: 28px !important;
-        height: 28px !important;
+        width: 24px !important;
+        height: 24px !important;
     }
 
     /* Episode cards */
@@ -909,11 +949,20 @@
         bottom: 56px;
     }
 
+    /* Queue FAB — move to bottom-left on mobile to avoid card button overlap */
     .queue-toggle-fab {
         bottom: 72px;
-        right: 12px;
+        left: 12px;
+        right: auto;
         width: 44px;
         height: 44px;
+    }
+
+    /* Share + queue buttons smaller on mobile cards */
+    .card-share-btn {
+        width: 38px;
+        height: 38px;
+        right: 58px;
     }
 
     /* Hide hotkey FAB on mobile — keyboard shortcuts don't apply */
@@ -974,33 +1023,7 @@
         pointer-events: auto;
     }
 
-    /* Share Button on Cards — matches queue button style exactly */
-    .card-share-btn {
-        position: absolute;
-        top: 16px;
-        right: 68px;
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        background: rgba(26, 32, 44, 0.6);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--text-secondary);
-        border: 1.5px solid rgba(247, 250, 252, 0.1);
-        transition: all 200ms ease;
-        z-index: 2;
-        cursor: pointer;
-    }
 
-    .card-share-btn:hover {
-        background: rgba(26, 32, 44, 0.85);
-        border-color: #409CFF;
-        color: #409CFF;
-        transform: scale(1.1);
-    }
 
     /* New Feature: Speed Control in Hero */
     .speed-control-btn {
