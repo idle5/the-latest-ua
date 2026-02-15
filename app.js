@@ -84,6 +84,10 @@ const dom = {
     hotkeyFabBtn: $('hotkey-fab-btn'),
     hotkeyPanel: $('hotkey-panel'),
 
+    // Mobile Extras
+    speedBtn: $('speed-btn'),
+    scrollFab: $('scroll-fab'),
+
     // Error
     errorState: $('error-state'),
     btnRetry: $('btn-retry'),
@@ -194,6 +198,14 @@ function renderEpisodeList() {
             <span class="episode-number">#${num}</span>
             <h3 class="episode-title">${ep.title}</h3>
             <div class="episode-date">${formattedDate}</div>
+            
+            <button class="card-share-btn" onclick="shareEpisode(event, ${idx})" aria-label="Поділитися" title="Копіювати посилання">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                    <polyline points="16 6 12 2 8 6"/>
+                    <line x1="12" y1="2" x2="12" y2="15"/>
+                </svg>
+            </button>
             
             <button class="circular-play-btn" data-ep-idx="${idx}" onclick="handleCardPlay(${idx})" aria-label="Відтворити епізод ${num}" title="${isPlaying ? 'Пауза' : 'Відтворити'}">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -599,9 +611,9 @@ dom.audio.addEventListener('ended', () => {
         return;
     }
 
-    // Priority 2: Autoplay next episode (newer = index - 1)
-    if (currentEpIndex > 0) {
-        const nextIdx = currentEpIndex - 1;
+    // Priority 2: Autoplay next older episode (older = index + 1)
+    if (currentEpIndex < allEpisodes.length - 1) {
+        const nextIdx = currentEpIndex + 1;
         loadEpisode(nextIdx);
         dom.audio.addEventListener('canplay', function onCan() {
             dom.audio.play().catch(() => { });
@@ -848,8 +860,17 @@ async function init() {
         // Render episode list (includes inline newsletter)
         renderEpisodeList();
 
-        // Load first episode (but don't auto-play)
-        await loadEpisode(0);
+        // Load shared episode if present, otherwise first
+        const urlParams = new URLSearchParams(window.location.search);
+        const sharedGuid = urlParams.get('ep');
+        let initialIdx = 0;
+
+        if (sharedGuid) {
+            const foundIdx = allEpisodes.findIndex(e => e.guid === sharedGuid);
+            if (foundIdx !== -1) initialIdx = foundIdx;
+        }
+
+        await loadEpisode(initialIdx);
 
         // Load saved data
         queue = loadJSON(LS_KEYS.queue, []);
@@ -884,3 +905,77 @@ dom.btnRetry.addEventListener('click', () => {
 
 // Start
 init();
+
+// ============================================
+// NEW FEATURES (Mobile Polish)
+// ============================================
+
+// 1. Share Episode
+window.shareEpisode = async function (e, idx) {
+    e.stopPropagation(); // prevent card click
+    const ep = allEpisodes[idx];
+    const url = new URL(window.location.href);
+    url.searchParams.set('ep', ep.guid);
+
+    try {
+        await navigator.clipboard.writeText(url.toString());
+        showToast('🔗 Посилання скопійовано');
+    } catch (err) {
+        console.error('Copy failed', err);
+        showToast('❌ Помилка копіювання');
+    }
+};
+
+// 2. Speed Control
+const SPEEDS = [1, 1.25, 1.5, 2];
+let speedIdx = 0;
+
+function toggleSpeed() {
+    speedIdx = (speedIdx + 1) % SPEEDS.length;
+    const newSpeed = SPEEDS[speedIdx];
+    dom.audio.playbackRate = newSpeed;
+    if (dom.speedBtn) dom.speedBtn.textContent = `${newSpeed}x`;
+    showToast(`Швидкість: ${newSpeed}x`);
+}
+
+if (dom.speedBtn) {
+    dom.speedBtn.addEventListener('click', toggleSpeed);
+}
+
+// 3. Scroll FAB
+function toggleScroll() {
+    if (window.scrollY > 300) {
+        // Scroll to Top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+        // Scroll to Bottom
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+}
+
+function updateScrollFab() {
+    if (!dom.scrollFab) return;
+
+    if (window.scrollY > 300) {
+        // Show Up Arrow
+        dom.scrollFab.classList.add('visible');
+        dom.scrollFab.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+    } else if (window.scrollY < 100) {
+        // Show Down Arrow (optional, only at very top)
+        dom.scrollFab.classList.add('visible');
+        dom.scrollFab.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+    } else {
+        // Hide in middle (100-300px) to avoid clutter? Or keep visible?
+        // Let's keep it clean.
+        dom.scrollFab.classList.remove('visible');
+    }
+}
+
+if (dom.scrollFab) {
+    dom.scrollFab.addEventListener('click', toggleScroll);
+    window.addEventListener('scroll', () => {
+        requestAnimationFrame(updateScrollFab);
+    });
+    // Initial check
+    updateScrollFab();
+}

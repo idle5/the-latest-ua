@@ -891,13 +891,119 @@
 
     /* Footer */
     .site-footer {
-        padding: 20px 12px 80px;
+        padding: 40px 20px 140px;
     }
 
     .footer-text,
     .footer-link {
-        font-size: 0.65rem;
+        font-size: 0.95rem;
+        /* readable on mobile */
     }
+
+    /* Mini-player larger mobile touch targets */
+    .mini-player {
+        height: 96px !important;
+        padding-bottom: env(safe-area-inset-bottom, 16px) !important;
+    }
+
+    .mini-player-title {
+        font-size: 0.95rem !important;
+        margin-bottom: 4px;
+    }
+
+    /* New Feature: Scroll FAB */
+    .scroll-fab {
+        position: fixed;
+        bottom: 110px;
+        /* above mini-player */
+        right: 16px;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: rgba(20, 26, 35, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-primary);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        z-index: 89;
+        /* below mini-player z-90 */
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 0;
+        transform: translateY(20px) scale(0.9);
+        pointer-events: none;
+    }
+
+    .scroll-fab.visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+    }
+
+    /* New Feature: Share Button on Cards */
+    .card-share-btn {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.2s ease;
+        opacity: 0;
+        z-index: 5;
+    }
+
+    .episode-card:hover .card-share-btn {
+        opacity: 1;
+    }
+
+    .card-share-btn:hover {
+        background: rgba(64, 156, 255, 0.8);
+        border-color: rgba(64, 156, 255, 0.5);
+        transform: scale(1.1);
+    }
+
+    /* Mobile show share btn always/on tap area */
+    @media (hover: none) {
+        .card-share-btn {
+            opacity: 1;
+            background: rgba(0, 0, 0, 0.2);
+            top: auto;
+            bottom: 12px;
+            right: 50px;
+            /* play btn is at right: 16px */
+        }
+    }
+
+    /* New Feature: Speed Control in Hero */
+    .speed-control-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        min-width: 40px;
+        text-align: center;
+        transition: all 0.2s;
+    }
+
+    .speed-control-btn:active {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(0.95);
+    }
+
 
     /* App container */
     .app-container {
