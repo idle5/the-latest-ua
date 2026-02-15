@@ -2,7 +2,7 @@
 
 A modern, dedicated web player for the Ukrainian AI-translated edition of The Telegraph's award-winning podcast, "Ukraine: The Latest."
 
-**[🔗 Live Demo Link](https://your-username.github.io/your-repo-name/)**
+**[🔗 Live Demo Link](https://idle5.github.io/the-latest-ua/)**
 
 ## 🎯 Project Purpose
 The Telegraph provides vital daily reporting on the war in Ukraine. While they offer a Ukrainian version of their podcast, it is tucked away inside their main English-language articles. This project creates a minimalist, dedicated space for Ukrainian speakers and researchers to access the audio feed directly, with a focus on speed, accessibility, and ease of use.
