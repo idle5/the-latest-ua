@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Ukraine: The Latest — Українською 🇺🇦</title>
+
+    <!-- Favicon (UA flag themed) -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='50' fill='%230057B8'/><rect y='50' width='100' height='50' fill='%23FFD700'/></svg>">
+
+    <!-- Social / OG Meta -->
+    <meta name="description"
+        content="Неофіційний плеєр для українського AI-перекладу подкасту The Telegraph «Ukraine: The Latest»">
+    <meta property="og:title" content="Ukraine: The Latest — Українською">
+    <meta property="og:description" content="Слухайте щоденний подкаст про Україну українською мовою">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#0F1419">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Performance: Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="ux-refinements.css">
+</head>
+
+<body>
+
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="brand-title">
+                <span class="brand-flag">🇺🇦</span>
+                Ukraine: The Latest
+                <span class="brand-divider">·</span>
+                <span class="brand-subtitle">Пн–Пт · Українською</span>
+            </h1>
+        </div>
+    </header>
+
+    <!-- Sticky Mini Player -->
+    <div id="mini-player" class="mini-player">
+        <div class="mini-player-progress">
+            <div id="mini-seek" class="mini-player-progress-bar" style="width: 0%"></div>
+        </div>
+        <div class="mini-player-inner">
+            <div class="mini-player-left">
+                <img id="mini-artwork" class="mini-player-artwork" src="" alt="Artwork" width="40" height="40">
+                <div id="mini-title" class="mini-player-title">—</div>
+            </div>
+
+            <div class="mini-player-controls">
+                <!-- Previous Episode -->
+                <button id="mini-btn-prev" class="btn-icon-2026" aria-label="Попередній епізод">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                        <line x1="5" y1="19" x2="5" y2="5"></line>
+                    </svg>
+                </button>
+
+                <!-- Backward Skip (-15s) -->
+                <button id="mini-btn-back" class="btn-icon-2026" aria-label="Назад 15 секунд">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                        <path d="M3 3v5h5" />
+                        <text x="12" y="15.5" text-anchor="middle" font-size="7.5" fill="currentColor" font-weight="700"
+                            stroke="none">15</text>
+                    </svg>
+                </button>
+
+                <!-- Play/Pause -->
+                <button id="mini-btn-play" class="btn-play" aria-label="Відтворити/Пауза">
+                    <svg id="mini-icon-play" width="24" height="24" viewBox="0 0 24 24" fill="white">
+                        <polygon points="6 4 20 12 6 20 6 4"></polygon>
+                    </svg>
+                    <svg id="mini-icon-pause" class="hidden" width="24" height="24" viewBox="0 0 24 24" fill="white">
+                        <rect x="6" y="4" width="4" height="16" rx="1"></rect>
+                        <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+                    </svg>
+                </button>
+
+                <!-- Forward Skip (+30s) -->
+                <button id="mini-btn-fwd" class="btn-icon-2026" aria-label="Вперед 30 секунд">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+                        <path d="M21 3v5h-5" />
+                        <text x="12" y="15.5" text-anchor="middle" font-size="7.5" fill="currentColor" font-weight="700"
+                            stroke="none">30</text>
+                    </svg>
+                </button>
+
+                <!-- Next Episode -->
+                <button id="mini-btn-next" class="btn-icon-2026" aria-label="Наступний епізод">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                        <line x1="19" y1="5" x2="19" y2="19"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="mini-player-meta">
+                <button id="mini-btn-expand" class="btn-icon-2026" aria-label="Розгорнути плеєр">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="17 11 12 6 7 11"></polyline>
+                        <polyline points="17 18 12 13 7 18"></polyline>
+                    </svg>
+                </button>
+                <span id="mini-time" class="mini-player-time">0:00 / 0:00</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Queue Overlay Panel (Toggleable) -->
+    <div id="queue-overlay" class="queue-overlay">
+        <div class="queue-overlay-header">
+            <h3>Черга</h3>
+            <button id="queue-overlay-close" class="btn-icon-2026" aria-label="Закрити чергу">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div id="queue-list" class="queue-overlay-list">
+            <p style="color: var(--text-tertiary); text-align: center; padding: 32px 16px;">
+                Черга порожня. Натисніть + біля епізоду, щоб додати.
+            </p>
+        </div>
+    </div>
+
+    <!-- Queue Toggle Button (Fixed) -->
+    <button id="queue-toggle-btn" class="queue-toggle-fab" aria-label="Відкрити чергу" title="Черга">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="8" y1="6" x2="21" y2="6"></line>
+            <line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line>
+            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+        </svg>
+        <span id="queue-badge" class="queue-badge hidden">0</span>
+    </button>
+
+    <!-- Main Container -->
+    <main class="app-container">
+
+        <!-- Continue Listening Banner -->
+        <div id="continue-banner" class="glass-card-2026 hidden" role="button" tabindex="0"
+            style="padding: var(--space-lg); margin-bottom: var(--space-xl); cursor: pointer;">
+            <div style="display: flex; align-items: center; gap: var(--space-md);">
+                <div style="font-size: 2rem;">▶️</div>
+                <div style="flex: 1;">
+                    <div style="font-weight: 600; margin-bottom: var(--space-xs);">Продовжити прослуховування</div>
+                    <div id="continue-title" style="color: var(--text-secondary); font-size: var(--text-sm);"></div>
+                </div>
+                <div id="continue-progress" style="color: var(--text-tertiary); font-size: var(--text-sm);"></div>
+            </div>
+        </div>
+
+        <!-- Episode Grid Section -->
+        <section class="episodes-section">
+            <div class="section-header">
+                <h2 class="section-title">Всі епізоди</h2>
+                <span id="episode-count" class="section-count">— випусків</span>
+            </div>
+
+            <div id="episode-list" class="episode-grid">
+                <!-- Episodes will be injected here by app.js -->
+            </div>
+        </section>
+
+        <!-- History Section (Collapsible) -->
+        <section class="collapsible-section">
+            <button id="history-toggle" class="section-toggle" aria-expanded="false">
+                <h3 style="font-size: var(--text-lg); font-weight: 600;">Нещодавно прослухано</h3>
+                <svg class="toggle-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
+            <div id="history-collapsible" class="section-collapsible">
+                <div id="history-list" style="padding: var(--space-lg);">
+                    <p style="color: var(--text-tertiary); text-align: center;">Історія порожня</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section glass-card-2026" style="margin-top: var(--space-xl); padding: var(--space-xl);">
+            <h2
+                style="font-size: var(--text-xl); font-weight: 700; margin-bottom: var(--space-md); color: var(--text-primary);">
+                Про подкаст</h2>
+            <p
+                style="color: var(--text-secondary); line-height: 1.7; margin-bottom: var(--space-lg); font-size: var(--text-base);">
+                <strong style="color: var(--text-primary);">Ukraine: The Latest</strong> — щоденний подкаст від The
+                Telegraph,
+                що виходить з понеділка по п'ятницю. Цей неофіційний плеєр надає AI-переклад українською мовою,
+                щоб україномовна аудиторія могла слухати найактуальніші новини та аналітику про Україну.
+            </p>
+
+            <h3
+                style="font-size: var(--text-sm); font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--space-md);">
+                Теми</h3>
+            <div class="topic-tags">
+                <span class="topic-tag">🇺🇦 Україна</span>
+                <span class="topic-tag">⚔️ Фронт</span>
+                <span class="topic-tag">🕊️ Мирні переговори</span>
+                <span class="topic-tag">🌍 Геополітика</span>
+                <span class="topic-tag">🇪🇺 ЄС & НАТО</span>
+                <span class="topic-tag">🇺🇸 США & Трамп</span>
+                <span class="topic-tag">🇷🇺 Росія & Путін</span>
+                <span class="topic-tag">💰 Санкції</span>
+                <span class="topic-tag">🛡️ Зброя & Оборона</span>
+                <span class="topic-tag">📊 Аналітика</span>
+                <span class="topic-tag">🗳️ Політика</span>
+                <span class="topic-tag">🏛️ Зеленський</span>
+            </div>
+
+            <div
+                style="margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid rgba(247,250,252,0.06);">
+                <p style="color: var(--text-tertiary); font-size: var(--text-sm);">
+                    Оригінальний подкаст англійською:
+                    <a href="https://www.telegraph.co.uk/ukraine-the-latest-podcast/" target="_blank"
+                        rel="noopener noreferrer" style="color: #409CFF; text-decoration: none;">The Telegraph —
+                        Ukraine: The Latest</a>
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <span class="footer-text">Built by</span>
+            <a href="https://github.com/idle5" target="_blank" rel="noopener noreferrer" class="footer-link">
+                <svg class="footer-gh-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                </svg>
+                idle5
+            </a>
+        </div>
+    </footer>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Hotkey Tooltip (Single Instance, Collapsible) -->
+    <div id="hotkey-fab" class="hotkey-fab" title="Гарячі клавіші">
+        <button id="hotkey-fab-btn" class="hotkey-fab-button" aria-label="Гарячі клавіші">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                <line x1="6" y1="10" x2="6.01" y2="10"></line>
+                <line x1="10" y1="10" x2="10.01" y2="10"></line>
+                <line x1="14" y1="10" x2="14.01" y2="10"></line>
+                <line x1="18" y1="10" x2="18.01" y2="10"></line>
+                <line x1="8" y1="14" x2="16" y2="14"></line>
+            </svg>
+        </button>
+        <div id="hotkey-panel" class="hotkey-panel hidden">
+            <div class="hotkey-panel-item"><kbd>Space</kbd><span>Пауза / Відтворення</span></div>
+            <div class="hotkey-panel-item"><kbd>←</kbd><span>-15 секунд</span></div>
+            <div class="hotkey-panel-item"><kbd>→</kbd><span>+30 секунд</span></div>
+            <div class="hotkey-panel-item"><kbd>Esc</kbd><span>Закрити плеєр</span></div>
+            <div class="hotkey-panel-item"><kbd>M</kbd><span>Вимкнути звук</span></div>
+        </div>
+    </div>
+
+    <!-- Hero Player Modal -->
+    <div id="hero-modal" class="hero-player-modal">
+        <div class="hero-player-card">
+            <button id="btn-close-modal" class="btn-close-modal" aria-label="Закрити">×</button>
+
+            <div class="hero-image-wrap">
+                <img id="hero-image" src="" alt="Episode artwork" width="600" height="400">
+                <div class="gradient-overlay"></div>
+            </div>
+
+            <div class="player-body">
+                <!-- Play State Tag -->
+                <div id="play-state-tag" class="now-playing-tag hidden">
+                    <span class="pulse-dot"></span>
+                    <span id="play-state-text">ЗАРАЗ ГРАЄ</span>
+                </div>
+
+                <!-- Episode Counter -->
+                <div id="ep-counter" class="ep-counter">—</div>
+
+                <!-- Episode Title -->
+                <h1 id="ep-title" class="ep-title">
+                    <span class="skeleton skeleton-title"></span>
+                </h1>
+
+                <!-- Episode Date -->
+                <div id="ep-date" class="ep-date">
+                    <span class="skeleton skeleton-date"></span>
+                </div>
+
+                <!-- Audio Element (Hidden) -->
+                <audio id="audio" preload="metadata"></audio>
+
+                <!-- Progress Bar -->
+                <div class="progress-bar-wrap">
+                    <span id="time-current" class="time-label">0:00</span>
+                    <input type="range" id="seek-slider" min="0" max="100" value="0" step="0.1"
+                        aria-label="Позиція відтворення">
+                    <span id="time-duration" class="time-label">0:00</span>
+                </div>
+
+                <!-- Main Controls -->
+                <div class="controls-main">
+                    <!-- Volume -->
+                    <div style="display: flex; align-items: center; gap: var(--space-sm);">
+                        <button id="vol-btn" class="btn-icon-2026" aria-label="Вимкнути звук">
+                            <!-- Volume High -->
+                            <svg id="vol-icon-high" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.5">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                            </svg>
+                            <!-- Volume Low -->
+                            <svg id="vol-icon-low" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.5">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                            </svg>
+                            <!-- Volume Muted -->
+                            <svg id="vol-icon-muted" class="hidden" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.5">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                <line x1="23" y1="9" x2="17" y2="15"></line>
+                                <line x1="17" y1="9" x2="23" y2="15"></line>
+                            </svg>
+                        </button>
+                        <input type="range" id="vol-slider" min="0" max="1" step="0.01" value="0.7" style="width: 80px;"
+                            aria-label="Гучність">
+                    </div>
+
+                    <!-- Center Controls -->
+                    <div class="controls-center">
+                        <!-- Previous Episode -->
+                        <button id="btn-prev-ep" class="btn-icon-2026" aria-label="Попередній епізод">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                                <line x1="5" y1="19" x2="5" y2="5"></line>
+                            </svg>
+                        </button>
+
+                        <!-- Backward Skip (-15s) -->
+                        <button id="btn-back" class="btn-icon-2026" aria-label="Назад 15 секунд">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                                <path d="M3 3v5h5" />
+                                <text x="12" y="15.5" text-anchor="middle" font-size="7.5" fill="currentColor"
+                                    font-weight="700" stroke="none">15</text>
+                            </svg>
+                        </button>
+
+                        <!-- Play/Pause -->
+                        <button id="btn-play" class="btn-play" aria-label="Відтворити/Пауза">
+                            <svg id="icon-play" width="28" height="28" viewBox="0 0 24 24" fill="white">
+                                <polygon points="6 4 20 12 6 20 6 4"></polygon>
+                            </svg>
+                            <svg id="icon-pause" class="hidden" width="28" height="28" viewBox="0 0 24 24" fill="white">
+                                <rect x="6" y="4" width="4" height="16" rx="1"></rect>
+                                <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+                            </svg>
+                        </button>
+
+                        <!-- Forward Skip (+30s) -->
+                        <button id="btn-fwd" class="btn-icon-2026" aria-label="Вперед 30 секунд">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+                                <path d="M21 3v5h-5" />
+                                <text x="12" y="15.5" text-anchor="middle" font-size="7.5" fill="currentColor"
+                                    font-weight="700" stroke="none">30</text>
+                            </svg>
+                        </button>
+
+                        <!-- Next Episode -->
+                        <button id="btn-next-ep" class="btn-icon-2026" aria-label="Наступний епізод">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                                <line x1="19" y1="5" x2="19" y2="19"></line>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Speed Control -->
+                    <div style="display: flex; align-items: center; gap: var(--space-sm);">
+                        <label for="speed-select" class="sr-only">Швидкість відтворення</label>
+                        <select id="speed-select"
+                            style="padding: var(--space-sm) var(--space-md); border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: var(--bg-tertiary); color: var(--text-primary); font-family: var(--font-body); font-size: var(--text-sm); cursor: pointer;">
+                            <option value="0.5">0.5×</option>
+                            <option value="0.75">0.75×</option>
+                            <option value="1" selected>1×</option>
+                            <option value="1.25">1.25×</option>
+                            <option value="1.5">1.5×</option>
+                            <option value="2">2×</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error State (Initially Hidden) -->
+    <div id="error-state" class="error-state hidden">
+        <div class="error-icon">⚠️</div>
+        <h2>Не вдалося завантажити епізоди</h2>
+        <p>Перевірте підключення до інтернету або спробуйте пізніше</p>
+        <button id="btn-retry" class="btn-2026">Спробувати знову</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Backups (not needed in production)
+backup_v2/
+backup_ux_redesign/
+
+# Newsletter placeholder (not yet integrated)
+newsletter.json
+
+# IDE
+.vscode/
+.idea/
+
+# Project logs (dev only)
+PROJECTLOG.md
