@@ -2,11 +2,9 @@
 
 /* ============================================
    CIRCULAR PLAY BUTTON (Episode Cards)
+   Now inline at bottom-right of card, next to date
    ============================================ */
 .circular-play-btn {
-    position: absolute;
-    bottom: 16px;
-    left: 16px;
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -20,6 +18,7 @@
     transition: all 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
     z-index: 2;
     color: white;
+    flex-shrink: 0;
 }
 
 .circular-play-btn svg {
@@ -101,6 +100,17 @@
     border-color: #409CFF;
     color: #409CFF;
     transform: scale(1.1);
+}
+
+/* ============================================
+   CARD BOTTOM ROW (Date + Play inline)
+   ============================================ */
+.card-bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 4px;
 }
 
 /* ============================================
@@ -303,6 +313,41 @@
     display: flex;
     align-items: center;
     gap: 12px;
+}
+
+/* Mini-player queue button (mobile only) */
+.mini-queue-btn {
+    display: none;
+    position: relative;
+}
+
+.mini-queue-btn .queue-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    font-size: 0.6rem;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #FF8A5B, #FFC850);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+/* Continue banner play icon — match blue play button style */
+.continue-play-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #409CFF, #60AEFF);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 3px 12px rgba(64, 156, 255, 0.4);
 }
 
 .mini-player-left {
@@ -888,17 +933,22 @@
         height: 18px !important;
     }
 
-    /* Hero controls — single row: volume | transport | speed */
+    /* Hero controls — tighter spacing on mobile */
     .controls-main {
         flex-wrap: nowrap !important;
-        justify-content: space-between !important;
-        gap: 4px !important;
+        justify-content: center !important;
+        gap: 6px !important;
         align-items: center !important;
     }
 
     /* Hide volume slider on mobile — just the mute/unmute button */
     #vol-slider {
         display: none !important;
+    }
+
+    /* Volume button container — remove extra gap from hidden slider */
+    .controls-main>div:first-child {
+        gap: 0 !important;
     }
 
     /* Hide the speed dropdown on mobile — keep the 1x button only */
@@ -910,14 +960,6 @@
         display: none !important;
     }
 
-    .controls-center {
-        overflow: visible !important;
-        flex-wrap: nowrap !important;
-        gap: 2px !important;
-        justify-content: center !important;
-        padding: 0 !important;
-    }
-
     /* Skip button SVGs smaller on mobile hero */
     #btn-back svg,
     #btn-fwd svg {
@@ -927,8 +969,8 @@
 
     /* Episode cards */
     .circular-play-btn {
-        width: 42px;
-        height: 42px;
+        width: 36px;
+        height: 36px;
     }
 
     .large-queue-btn {
@@ -936,12 +978,8 @@
         height: 38px;
     }
 
-    /* Padding adjustment for smaller play button */
-    /* Padding adjustment for smaller play button */
     .episode-card {
         padding: 12px !important;
-        /* Compact mobile card */
-        padding-bottom: calc(12px + 42px) !important;
     }
 
     /* Queue overlay full-width */
@@ -949,13 +987,14 @@
         bottom: 56px;
     }
 
-    /* Queue FAB — move to bottom-left on mobile to avoid card button overlap */
+    /* Queue FAB — hidden on mobile, integrated into mini-player */
     .queue-toggle-fab {
-        bottom: 72px;
-        left: 12px;
-        right: auto;
-        width: 44px;
-        height: 44px;
+        display: none !important;
+    }
+
+    /* Show queue button in mini-player on mobile */
+    .mini-queue-btn {
+        display: flex !important;
     }
 
     /* Share + queue buttons smaller on mobile cards */

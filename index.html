@@ -106,6 +106,18 @@
             </div>
 
             <div class="mini-player-meta">
+                <button id="mini-queue-btn" class="mini-queue-btn btn-icon-2026" aria-label="Відкрити чергу"
+                    title="Черга">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                    </svg>
+                    <span id="mini-queue-badge" class="queue-badge hidden">0</span>
+                </button>
                 <button id="mini-btn-expand" class="btn-icon-2026" aria-label="Розгорнути плеєр">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="17 11 12 6 7 11"></polyline>
@@ -155,7 +167,11 @@
         <div id="continue-banner" class="glass-card-2026 hidden" role="button" tabindex="0"
             style="padding: var(--space-lg); margin-bottom: var(--space-xl); cursor: pointer;">
             <div style="display: flex; align-items: center; gap: var(--space-md);">
-                <div style="font-size: 2rem;">▶️</div>
+                <div class="continue-play-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                        <polygon points="8 5 19 12 8 19 8 5"></polygon>
+                    </svg>
+                </div>
                 <div style="flex: 1;">
                     <div style="font-weight: 600; margin-bottom: var(--space-xs);">Продовжити прослуховування</div>
                     <div id="continue-title" style="color: var(--text-secondary); font-size: var(--text-sm);"></div>

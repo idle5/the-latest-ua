@@ -75,6 +75,7 @@ const dom = {
     queueOverlayClose: $('queue-overlay-close'),
     queueToggleBtn: $('queue-toggle-btn'),
     queueBadge: $('queue-badge'),
+    queueBadgeMini: $('mini-queue-badge'),
     queueList: $('queue-list'),
     historyToggle: $('history-toggle'),
     historyCollapsible: $('history-collapsible'),
@@ -87,6 +88,8 @@ const dom = {
     // Mobile Extras
     speedBtn: $('speed-btn'),
     scrollFab: $('scroll-fab'),
+    miniQueueBtn: $('mini-queue-btn'),
+    miniQueueBadge: $('mini-queue-badge'),
 
     // Error
     errorState: $('error-state'),
@@ -197,7 +200,6 @@ function renderEpisodeList() {
             ${artwork ? `<img src="${artwork}" alt="${ep.title}" class="episode-artwork" loading="lazy" width="60" height="60">` : ''}
             <span class="episode-number">#${num}</span>
             <h3 class="episode-title">${ep.title}</h3>
-            <div class="episode-date">${formattedDate}</div>
             
             <button class="card-share-btn" onclick="shareEpisode(event, ${idx})" aria-label="Поділитися" title="Копіювати посилання">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -207,11 +209,14 @@ function renderEpisodeList() {
                 </svg>
             </button>
             
-            <button class="circular-play-btn" data-ep-idx="${idx}" onclick="handleCardPlay(${idx})" aria-label="Відтворити епізод ${num}" title="${isPlaying ? 'Пауза' : 'Відтворити'}">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    ${isPlaying ? '<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>' : '<path d="M8 5v14l11-7z"/>'}
-                </svg>
-            </button>
+            <div class="card-bottom-row">
+                <div class="episode-date">${formattedDate}</div>
+                <button class="circular-play-btn" data-ep-idx="${idx}" onclick="handleCardPlay(${idx})" aria-label="Відтворити епізод ${num}" title="${isPlaying ? 'Пауза' : 'Відтворити'}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        ${isPlaying ? '<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>' : '<path d="M8 5v14l11-7z"/>'}
+                    </svg>
+                </button>
+            </div>
             
             <button class="large-queue-btn ${isInQueue ? 'in-queue' : ''}" onclick="addToQueue(${idx});" aria-label="${isInQueue ? 'У черзі' : 'Додати до черги'}" title="${isInQueue ? 'У черзі' : 'Додати до черги'}">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -512,25 +517,22 @@ dom.seek.addEventListener('change', () => {
     isSeeking = false;
 });
 
-// Volume Control
+// Volume Control (uses audio.muted for iOS Safari compatibility)
 dom.volBtn.addEventListener('click', () => {
-    if (dom.audio.volume > 0) {
-        dom.audio.volume = 0;
-    } else {
-        dom.audio.volume = 0.7;
-    }
+    dom.audio.muted = !dom.audio.muted;
     updateVolumeIcon();
-    saveJSON(LS_KEYS.volume, dom.audio.volume);
+    saveJSON(LS_KEYS.volume, dom.audio.muted ? 0 : dom.audio.volume);
 });
 
 dom.volSlider.addEventListener('input', () => {
     dom.audio.volume = parseFloat(dom.volSlider.value);
+    dom.audio.muted = false;
     updateVolumeIcon();
     saveJSON(LS_KEYS.volume, dom.audio.volume);
 });
 
 function updateVolumeIcon() {
-    const vol = dom.audio.volume;
+    const vol = dom.audio.muted ? 0 : dom.audio.volume;
     dom.volIconHigh.classList.toggle('hidden', vol < 0.5);
     dom.volIconLow.classList.toggle('hidden', vol === 0 || vol >= 0.5);
     dom.volIconMuted.classList.toggle('hidden', vol > 0);
@@ -773,6 +775,12 @@ function setupCollapsibles() {
     // Queue overlay panel toggle
     if (dom.queueToggleBtn && dom.queueOverlay) {
         dom.queueToggleBtn.addEventListener('click', () => {
+            dom.queueOverlay.classList.toggle('visible');
+        });
+    }
+    // Mini-player queue button (mobile)
+    if (dom.miniQueueBtn && dom.queueOverlay) {
+        dom.miniQueueBtn.addEventListener('click', () => {
             dom.queueOverlay.classList.toggle('visible');
         });
     }
