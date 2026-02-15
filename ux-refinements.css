@@ -764,14 +764,14 @@
         grid-template-columns: 1fr !important;
     }
 
-    /* Header — keep inline but smaller */
+    /* Header — readable on mobile */
     .brand-title {
-        font-size: 0.85rem;
-        gap: 4px;
+        font-size: 1rem;
+        gap: 5px;
     }
 
     .brand-subtitle {
-        font-size: 0.7rem;
+        font-size: 0.78rem;
     }
 
     .app-header {
@@ -849,11 +849,24 @@
     .controls-center .btn-icon-2026 {
         width: 32px !important;
         height: 32px !important;
+        flex-shrink: 0;
     }
 
     .controls-center .btn-icon-2026 svg {
-        width: 24px !important;
-        height: 24px !important;
+        width: 22px !important;
+        height: 22px !important;
+    }
+
+    .controls-center {
+        overflow: visible !important;
+        flex-wrap: nowrap !important;
+        gap: 2px !important;
+        padding: 0 8px !important;
+    }
+
+    .hero-player-card .controls-center {
+        max-width: 100%;
+        justify-content: center;
     }
 
     /* Episode cards */
@@ -868,7 +881,10 @@
     }
 
     /* Padding adjustment for smaller play button */
+    /* Padding adjustment for smaller play button */
     .episode-card {
+        padding: 12px !important;
+        /* Compact mobile card */
         padding-bottom: calc(12px + 42px) !important;
     }
 
@@ -884,9 +900,9 @@
         height: 44px;
     }
 
+    /* Hide hotkey FAB on mobile — keyboard shortcuts don't apply */
     .hotkey-fab {
-        bottom: 72px;
-        left: 12px;
+        display: none !important;
     }
 
     /* Footer */
@@ -911,29 +927,28 @@
         margin-bottom: 4px;
     }
 
-    /* New Feature: Scroll FAB */
+    /* Scroll-to-top — top-right, only visible when scrolled down */
     .scroll-fab {
         position: fixed;
-        bottom: 110px;
-        /* above mini-player */
-        right: 16px;
-        width: 48px;
-        height: 48px;
+        top: 52px;
+        right: 12px;
+        bottom: auto;
+        width: 36px;
+        height: 36px;
         border-radius: 50%;
-        background: rgba(20, 26, 35, 0.85);
+        background: rgba(20, 26, 35, 0.9);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.12);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--text-primary);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        z-index: 89;
-        /* below mini-player z-90 */
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        color: var(--text-secondary);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        z-index: 100;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         opacity: 0;
-        transform: translateY(20px) scale(0.9);
+        transform: translateY(-10px) scale(0.9);
         pointer-events: none;
     }
 
@@ -943,24 +958,26 @@
         pointer-events: auto;
     }
 
-    /* New Feature: Share Button on Cards */
+    /* Share Button on Cards — inline with queue + btn, top-right of image */
     .card-share-btn {
         position: absolute;
         top: 12px;
-        right: 12px;
+        right: 52px;
         width: 32px;
         height: 32px;
         border-radius: 50%;
-        background: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(4px);
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: rgba(255, 255, 255, 0.9);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.12);
         transition: all 0.2s ease;
         opacity: 0;
         z-index: 5;
+        cursor: pointer;
     }
 
     .episode-card:hover .card-share-btn {
@@ -968,20 +985,16 @@
     }
 
     .card-share-btn:hover {
-        background: rgba(64, 156, 255, 0.8);
-        border-color: rgba(64, 156, 255, 0.5);
-        transform: scale(1.1);
+        background: rgba(64, 156, 255, 0.7);
+        border-color: rgba(64, 156, 255, 0.4);
+        transform: scale(1.05);
+        color: white;
     }
 
-    /* Mobile show share btn always/on tap area */
+    /* Mobile: always show share btn */
     @media (hover: none) {
         .card-share-btn {
             opacity: 1;
-            background: rgba(0, 0, 0, 0.2);
-            top: auto;
-            bottom: 12px;
-            right: 50px;
-            /* play btn is at right: 16px */
         }
     }
 
@@ -1008,5 +1021,24 @@
     /* App container */
     .app-container {
         padding-bottom: 100px !important;
+    }
+}
+
+
+/* Mobile Controls & Layout Fixes (Final Polish) */
+@media (max-width: 600px) {
+    .app-container {
+        padding: var(--space-lg) 12px 140px !important;
+    }
+
+    .controls-center {
+        padding: 0 4px;
+        justify-content: center;
+        flex-wrap: nowrap;
+    }
+
+    .btn-icon-2026 {
+        margin: 0 2px;
+        flex-shrink: 0;
     }
 }
