@@ -1,26 +1,29 @@
-# Ukraine: The Latest - Unofficial Ukrainian Player 🇺🇦
+# Ukraine: The Latest - Unofficial Enhanced Player 🇺🇦
 
-A modern, dedicated web player for the Ukrainian AI-translated edition of The Telegraph's award-winning podcast, "Ukraine: The Latest."
+A modern, accessible, and privacy-focused web player for the Ukrainian AI-translated edition of The Telegraph's "Ukraine: The Latest."
 
 **[🔗 Live Demo Link](https://idle5.github.io/the-latest-ua/)**
 
 ## 🎯 Project Purpose
-The Telegraph provides vital daily reporting on the war in Ukraine. While they offer a Ukrainian version of their podcast, it is tucked away inside their main English-language articles. This project creates a minimalist, dedicated space for Ukrainian speakers and researchers to access the audio feed directly, with a focus on speed, accessibility, and ease of use.
+While official versions exist on Spotify and Apple Podcasts, they often require accounts, apps, or specific devices. This project serves as an **"Unlocked Open Web"** alternative:
+- **No Login Required:** Instant access for anyone, anywhere.
+- **No App Download:** Works purely in the browser on any device (Desktop, Android, iOS).
+- **Enhanced Discovery:** Unlike standard players, this version includes **Topic Filtering** and **Search** to help researchers and listeners find specific updates (e.g., "F-16", "NATO", "Kherson") instantly.
 
 ## ✨ Key Features
-- **Real-time RSS Integration:** Automatically fetches the latest episodes directly from the Acast RSS feed.
-- **Dynamic Translation:** Uses a client-side Google Translate integration to provide Ukrainian titles for the latest episodes on the fly.
-- **Custom Audio Engine:** A bespoke JavaScript audio interface featuring:
-  - Standard playback speeds (1x, 1.25x, 1.5x, 2x).
-  - Custom seek and volume controls.
-  - Mobile-responsive "Cinema" layout.
-- **Episode Library:** A scrollable history of all past episodes that can be swapped into the main player.
-- **Weekly Newsletter Integration:** A dedicated sidebar for translated insights from the Telegraph's editorial team.
+- **🔍 Smart Search & Topics:** Instantly filter episodes by keyword or topic (e.g., "Frontline Updates", "Geopolitics")—a feature missing from many standard RSS players.
+- **⚡ Real-time RSS:** Automatically fetches the latest episodes from the Acast feed.
+- **💎 Premium UI:** A "Glassmorphism" design inspired by modern iOS/macOS aesthetics, featuring dynamic animations and a responsive grid layout.
+- **🎧 Pro Audio Controls:**
+  - Precision playback speeds (0.5x to 2x).
+  - "Cinema Mode" Hero Player.
+  - Keyboard shortcuts for power users.
+- **🌍 Privacy First:** No tracking, no cookies, no accounts.
 
 ## 🛠️ Technical Stack
 - **Frontend:** HTML5, CSS3 (Modern Flexbox/Grid), Vanilla JavaScript (ES6+).
-- **Data Handling:** XML/RSS Parsing via `DOMParser`.
-- **APIs:** Google Translate API (Public Endpoint).
+- **Data Handling:** Client-side XML/RSS Parsing.
+- **Search Engine:** Custom client-side indexing of episode metadata.
 - **Hosting:** GitHub Pages.
 
 ## 🧠 Technical Challenges & Solutions

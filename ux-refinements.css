@@ -1088,8 +1088,112 @@
         flex-wrap: nowrap;
     }
 
-    .btn-icon-2026 {
-        margin: 0 2px;
-        flex-shrink: 0;
-    }
+}
+
+/* ============================================
+   SEARCH BAR
+   ============================================ */
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.brand-title {
+    flex-shrink: 0;
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 8px 16px;
+    width: 100%;
+    max-width: 280px;
+    margin-left: auto;
+    transition: all 0.2s ease;
+}
+
+.search-container:hover {
+    background: rgba(26, 32, 44, 0.6);
+    border-color: rgba(247, 250, 252, 0.15);
+    transform: translateY(-1px);
+}
+
+.search-container:focus-within {
+    background: rgba(26, 32, 44, 0.85);
+    border-color: #409CFF;
+    box-shadow: 0 0 0 1px #409CFF, 0 8px 30px rgba(64, 156, 255, 0.15);
+    transform: translateY(-1px);
+}
+
+.search-icon {
+    color: var(--text-tertiary);
+    margin-right: 12px;
+    opacity: 0.8;
+    transition: color 0.2s;
+}
+
+.search-container:focus-within .search-icon {
+    color: #409CFF;
+    opacity: 1;
+}
+
+#search-input {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    width: 100%;
+    outline: none;
+    font-weight: 500;
+}
+
+#search-input::placeholder {
+    color: var(--text-tertiary);
+    font-weight: 400;
+    opacity: 0.7;
+}
+
+#search-clear {
+    background: transparent;
+    border: none;
+    color: var(--text-tertiary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 4px;
+}
+
+#search-clear:hover {
+    color: var(--text-primary);
+}
+
+#search-clear.hidden {
+    display: none;
+}
+
+/* ============================================
+   INTERACTIVE TOPIC TAGS
+   ============================================ */
+.topic-tag {
+    cursor: pointer !important;
+    user-select: none;
+}
+
+.topic-tag:active {
+    transform: scale(0.95);
+}
+
+.topic-tag.active {
+    background: rgba(64, 156, 255, 0.2);
+    border-color: #409CFF;
+    color: #409CFF;
+    box-shadow: 0 2px 12px rgba(64, 156, 255, 0.15);
 }

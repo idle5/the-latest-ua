@@ -37,6 +37,11 @@ async function main() {
         const guid = extractTag(itemXml, 'guid');
         const duration = extractTag(itemXml, 'itunes:duration');
 
+        // Extract description (try multiple tags)
+        let description = extractTag(itemXml, 'description');
+        if (!description) description = extractTag(itemXml, 'itunes:summary');
+        if (!description) description = extractTag(itemXml, 'content:encoded');
+
         // Enclosure URL
         const encMatch = itemXml.match(/<enclosure[^>]+url="([^"]+)"/);
         const audioUrl = encMatch ? encMatch[1] : '';
@@ -50,6 +55,7 @@ async function main() {
 
         items.push({
             title: cleanCDATA(title),
+            description: cleanCDATA(description).replace(/<[^>]*>/g, '').substring(0, 500), // Clean HTML and limit length
             pubDate,
             guid: cleanCDATA(guid),
             duration,

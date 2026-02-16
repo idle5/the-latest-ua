@@ -104,6 +104,8 @@ let currentEpIndex = -1;
 let queue = [];
 let history = [];
 let isSeeking = false;
+let currentSearchTerm = '';
+let activeTopic = null;
 
 // ============================================
 // UTILITY: localStorage
@@ -166,12 +168,46 @@ let visibleCount = EPISODES_PER_PAGE;
 
 function renderEpisodeList() {
     dom.episodeList.innerHTML = '';
-    const total = allEpisodes.length;
-    dom.episodeCount.textContent = `${total} випусків`;
+
+    // Filter episodes
+    const filtered = allEpisodes.filter(ep => {
+        // 1. Search Filter
+        const matchesSearch = !currentSearchTerm ||
+            ep.title.toLowerCase().includes(currentSearchTerm) ||
+            (ep.description && ep.description.toLowerCase().includes(currentSearchTerm));
+
+        // 2. Topic Filter
+        const matchesTopic = !activeTopic || checkTopicMatch(ep, activeTopic);
+
+        return matchesSearch && matchesTopic;
+    });
+
+    const total = filtered.length;
+
+    // Update count text
+    if (currentSearchTerm || activeTopic) {
+        dom.episodeCount.textContent = `Знайдено: ${total}`;
+    } else {
+        dom.episodeCount.textContent = `${allEpisodes.length} випусків`;
+    }
+
+    if (total === 0) {
+        dom.episodeList.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-tertiary);">
+                Нічого не знайдено за запитом "${currentSearchTerm || activeTopic}"
+                <br>
+                <button onclick="clearSearch()" class="btn-2026" style="margin-top: 16px;">Очистити фільтри</button>
+            </div>
+        `;
+        return;
+    }
 
     const toShow = Math.min(visibleCount, total);
 
-    allEpisodes.slice(0, toShow).forEach((ep, idx) => {
+    filtered.slice(0, toShow).forEach((ep) => {
+        // Find original index for playback
+        const idx = allEpisodes.findIndex(e => e.guid === ep.guid);
+
         const card = document.createElement('div');
         card.className = 'episode-card glass-card-2026';
 
@@ -544,6 +580,115 @@ function updateVolumeIcon() {
     dom.volIconLow.classList.toggle('hidden', vol === 0 || vol >= 0.5);
     dom.volIconMuted.classList.toggle('hidden', vol > 0);
 }
+
+// ============================================
+// SEARCH & TOPIC FILTERING
+// ============================================
+
+// Topic Keywords Mapping
+const TOPIC_KEYWORDS = {
+    'Україна': ['україна', 'київ', 'львів', 'харків', 'одеса'],
+    'Фронт': ['фронт', 'бахмут', 'авдіївка', 'куп\'янськ', 'запоріжжя', 'херсон', 'донбас', 'наступ', 'контрнаступ', 'оборона'],
+    'Переговори': ['переговори', 'мир', 'женева', 'стамбул', 'угода', 'припинення вогню'],
+    'Геополітика': ['британія', 'лондон', 'макрон', 'шольц', 'китай', 'сі цзіньпін', 'індія', 'глобальний південь'],
+    'ЄС': ['єс', 'євросоюз', 'нато', 'альянс', 'брюссель', 'членство'],
+    'США': ['сша', 'америка', 'трамп', 'байден', 'вашингтон', 'конгрес', 'сенат', 'республіканці', 'демократи'],
+    'Росія': ['росія', 'рф', 'москва', 'путін', 'кремль', 'шойгу', 'герасимов'],
+    'Санкції': ['санкції', 'економіка', 'нафта', 'газ', 'рубль', 'Swift', 'активи'],
+    'Зброя': ['f-16', 'himars', 'patriot', 'leopard', 'abrams', 'atacms', 'снаряди', 'танки', 'ракети', 'дрони', 'бпла'],
+    'Аналітика': ['аналіз', 'експерт', 'погляд', 'думка', 'стратегія', 'тактика'],
+    'Політика': ['політика', 'парламент', 'рада', 'уряд', 'міністр', 'депутат', 'корупція'],
+    'Зеленський': ['зеленський', 'президент', 'офіс президента']
+};
+
+function checkTopicMatch(ep, topic) {
+    const text = (ep.title + ' ' + (ep.description || '')).toLowerCase();
+    const keywords = TOPIC_KEYWORDS[topic] || [topic.toLowerCase()];
+    return keywords.some(k => text.includes(k));
+}
+
+// Global Filter Functions
+window.filterByTopic = function (topic) {
+    const isSame = activeTopic === topic;
+    activeTopic = isSame ? null : topic;
+    currentSearchTerm = ''; // Clear text search when clicking topic
+
+    // Update UI
+    if ($('search-input')) $('search-input').value = '';
+    updateFilterUI();
+
+    // Reset visible count
+    visibleCount = EPISODES_PER_PAGE;
+    renderEpisodeList();
+
+    // Scroll to list
+    const listTop = dom.episodeList.getBoundingClientRect().top + window.scrollY - 180;
+    window.scrollTo({ top: listTop, behavior: 'smooth' });
+};
+
+window.clearSearch = function () {
+    currentSearchTerm = '';
+    activeTopic = null;
+    if ($('search-input')) $('search-input').value = '';
+    updateFilterUI();
+    renderEpisodeList();
+};
+
+function updateFilterUI() {
+    // Toggle active state on topic buttons
+    document.querySelectorAll('.topic-tag').forEach(btn => {
+        const btnTopic = btn.textContent.split(' ').slice(1).join(' '); // Remove emoji
+        // Simple check: if button text contains the active topic
+        if (activeTopic && btn.textContent.includes(activeTopic)) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+
+    // Show/Hide Clear Button in search
+    const clearBtn = $('search-clear');
+    if (clearBtn) {
+        if (currentSearchTerm || activeTopic) {
+            clearBtn.classList.remove('hidden');
+        } else {
+            clearBtn.classList.add('hidden');
+        }
+    }
+}
+
+// Setup Search Handlers
+function setupSearch() {
+    const input = $('search-input');
+    const clearBtn = $('search-clear');
+
+    if (input) {
+        input.addEventListener('input', (e) => {
+            const val = e.target.value.trim();
+            currentSearchTerm = val ? val.toLowerCase() : '';
+            activeTopic = null; // Clear topic when typing
+            updateFilterUI();
+            visibleCount = EPISODES_PER_PAGE;
+            renderEpisodeList();
+        });
+    }
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            if (input) {
+                input.value = '';
+                currentSearchTerm = '';
+                activeTopic = null;
+                updateFilterUI();
+                visibleCount = EPISODES_PER_PAGE;
+                renderEpisodeList();
+            }
+        });
+    }
+}
+
+// Initialize Search
+setupSearch();
 
 // Speed Control
 dom.speedSelect.addEventListener('change', () => {

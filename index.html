@@ -34,12 +34,23 @@
     <!-- App Header -->
     <header class="app-header">
         <div class="header-content">
-            <h1 class="brand-title">
+            <div class="brand-title" onclick="window.location.reload()" style="cursor: pointer;">
                 <span class="brand-flag">🇺🇦</span>
                 Ukraine: The Latest
                 <span class="brand-divider">·</span>
                 <span class="brand-subtitle">Пн–Пт · Українською</span>
-            </h1>
+            </div>
+
+            <!-- Search Bar (Moved to Header) -->
+            <div class="search-container">
+                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="search-input" placeholder="Пошук епізодів..." autocomplete="off">
+                <button id="search-clear" class="hidden" aria-label="Очистити пошук">×</button>
+            </div>
         </div>
     </header>
 
@@ -182,9 +193,9 @@
 
         <!-- Episode Grid Section -->
         <section class="episodes-section">
-            <div class="section-header">
+            <div class="section-header" style="flex-wrap: wrap; gap: 16px;">
                 <h2 class="section-title">Всі епізоди</h2>
-                <span id="episode-count" class="section-count">— випусків</span>
+                <div id="episode-count" class="section-count">Завантаження...</div>
             </div>
 
             <div id="episode-list" class="episode-grid">
@@ -224,19 +235,19 @@
             <h3
                 style="font-size: var(--text-sm); font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--space-md);">
                 Теми</h3>
-            <div class="topic-tags">
-                <span class="topic-tag">🇺🇦 Україна</span>
-                <span class="topic-tag">⚔️ Фронт</span>
-                <span class="topic-tag">🕊️ Мирні переговори</span>
-                <span class="topic-tag">🌍 Геополітика</span>
-                <span class="topic-tag">🇪🇺 ЄС & НАТО</span>
-                <span class="topic-tag">🇺🇸 США & Трамп</span>
-                <span class="topic-tag">🇷🇺 Росія & Путін</span>
-                <span class="topic-tag">💰 Санкції</span>
-                <span class="topic-tag">🛡️ Зброя & Оборона</span>
-                <span class="topic-tag">📊 Аналітика</span>
-                <span class="topic-tag">🗳️ Політика</span>
-                <span class="topic-tag">🏛️ Зеленський</span>
+            <div class="topic-tags" id="topic-filters">
+                <button class="topic-tag" onclick="filterByTopic('Україна')">🇺🇦 Україна</button>
+                <button class="topic-tag" onclick="filterByTopic('Фронт')">⚔️ Фронт</button>
+                <button class="topic-tag" onclick="filterByTopic('Переговори')">🕊️ Мирні переговори</button>
+                <button class="topic-tag" onclick="filterByTopic('Геополітика')">🌍 Геополітика</button>
+                <button class="topic-tag" onclick="filterByTopic('ЄС')">🇪🇺 ЄС & НАТО</button>
+                <button class="topic-tag" onclick="filterByTopic('США')">🇺🇸 США & Трамп</button>
+                <button class="topic-tag" onclick="filterByTopic('Росія')">🇷🇺 Росія & Путін</button>
+                <button class="topic-tag" onclick="filterByTopic('Санкції')">💰 Санкції</button>
+                <button class="topic-tag" onclick="filterByTopic('Зброя')">🛡️ Зброя & Оборона</button>
+                <button class="topic-tag" onclick="filterByTopic('Аналітика')">📊 Аналітика</button>
+                <button class="topic-tag" onclick="filterByTopic('Політика')">🗳️ Політика</button>
+                <button class="topic-tag" onclick="filterByTopic('Зеленський')">🏛️ Зеленський</button>
             </div>
 
             <div
