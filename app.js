@@ -86,7 +86,7 @@ const dom = {
     hotkeyPanel: $('hotkey-panel'),
 
     // Mobile Extras
-    speedBtn: $('speed-btn'),
+
     scrollFab: $('scroll-fab'),
     miniQueueBtn: $('mini-queue-btn'),
     miniQueueBadge: $('mini-queue-badge'),
@@ -201,13 +201,24 @@ function renderEpisodeList() {
             <span class="episode-number">#${num}</span>
             <h3 class="episode-title">${ep.title}</h3>
             
-            <button class="card-share-btn" onclick="shareEpisode(event, ${idx})" aria-label="Поділитися" title="Копіювати посилання">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
-                    <polyline points="16 6 12 2 8 6"/>
-                    <line x1="12" y1="2" x2="12" y2="15"/>
-                </svg>
-            </button>
+            
+            <div class="card-actions-top-right">
+                <button class="card-share-btn" onclick="shareEpisode(event, ${idx})" aria-label="Поділитися" title="Копіювати посилання">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="5" r="3"></circle>
+                        <circle cx="6" cy="12" r="3"></circle>
+                        <circle cx="18" cy="19" r="3"></circle>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                </button>
+                
+                <button class="large-queue-btn ${isInQueue ? 'in-queue' : ''}" onclick="addToQueue(${idx});" aria-label="${isInQueue ? 'У черзі' : 'Додати до черги'}" title="${isInQueue ? 'У черзі' : 'Додати до черги'}">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        ${isInQueue ? '<path d="M20 6L9 17l-5-5"/>' : '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>'}
+                    </svg>
+                </button>
+            </div>
             
             <div class="card-bottom-row">
                 <div class="episode-date">${formattedDate}</div>
@@ -218,11 +229,7 @@ function renderEpisodeList() {
                 </button>
             </div>
             
-            <button class="large-queue-btn ${isInQueue ? 'in-queue' : ''}" onclick="addToQueue(${idx});" aria-label="${isInQueue ? 'У черзі' : 'Додати до черги'}" title="${isInQueue ? 'У черзі' : 'Додати до черги'}">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    ${isInQueue ? '<path d="M20 6L9 17l-5-5"/>' : '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>'}
-                </svg>
-            </button>
+
         `;
 
         dom.episodeList.appendChild(card);
@@ -934,21 +941,7 @@ window.shareEpisode = async function (e, idx) {
     }
 };
 
-// 2. Speed Control
-const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2];
-let speedIdx = 2; // Default 1x (index 2)
 
-function toggleSpeed() {
-    speedIdx = (speedIdx + 1) % SPEEDS.length;
-    const newSpeed = SPEEDS[speedIdx];
-    dom.audio.playbackRate = newSpeed;
-    if (dom.speedBtn) dom.speedBtn.textContent = `${newSpeed}x`;
-    showToast(`Швидкість: ${newSpeed}x`);
-}
-
-if (dom.speedBtn) {
-    dom.speedBtn.addEventListener('click', toggleSpeed);
-}
 
 // 3. Scroll-to-top FAB (appears top-right when scrolled)
 function toggleScroll() {

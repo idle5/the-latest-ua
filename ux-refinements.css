@@ -278,7 +278,8 @@
 
 /* Compact controls area */
 .controls-main {
-    gap: 4px !important;
+    gap: 12px !important;
+    justify-content: center;
 }
 
 .controls-center {
@@ -1065,23 +1066,7 @@
 
 
     /* New Feature: Speed Control in Hero */
-    .speed-control-btn {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 6px;
-        padding: 4px 8px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: var(--text-secondary);
-        min-width: 40px;
-        text-align: center;
-        transition: all 0.2s;
-    }
 
-    .speed-control-btn:active {
-        background: rgba(255, 255, 255, 0.2);
-        transform: scale(0.95);
-    }
 
 
     /* App container */
