@@ -229,6 +229,7 @@ function renderEpisodeList() {
 
         const card = document.createElement('div');
         card.className = 'episode-card glass-card-2026';
+        card.id = `ep-${ep.guid}`;
 
         const histEntry = history.find(h => h.guid === ep.guid);
         const isSelected = idx === currentEpIndex;
@@ -1052,14 +1053,35 @@ async function init() {
         // Load shared episode if present, otherwise first
         const urlParams = new URLSearchParams(window.location.search);
         const sharedGuid = urlParams.get('ep');
+        const sharedTime = parseFloat(urlParams.get('t'));
         let initialIdx = 0;
 
         if (sharedGuid) {
             const foundIdx = allEpisodes.findIndex(e => e.guid === sharedGuid);
-            if (foundIdx !== -1) initialIdx = foundIdx;
+            if (foundIdx !== -1) {
+                initialIdx = foundIdx;
+
+                // DEEP LINKING: Scroll to episode and highlight
+                setTimeout(() => {
+                    const card = document.getElementById(`ep-${sharedGuid}`);
+                    if (card) {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        card.classList.add('highlight-episode');
+                        // Remove highlight after animation
+                        setTimeout(() => card.classList.remove('highlight-episode'), 4000);
+                    }
+                }, 500); // Allow render to complete
+            }
         }
 
         await loadEpisode(initialIdx);
+
+        // If timestamp provided, seek to it
+        if (sharedGuid && !isNaN(sharedTime) && sharedTime > 0) {
+            dom.audio.currentTime = sharedTime;
+            // Optionally auto-play if deep linked with time? 
+            // Better to let user press play, but seek is done.
+        }
 
         // Load saved data
         queue = loadJSON(LS_KEYS.queue, []);
@@ -1100,11 +1122,21 @@ init();
 // ============================================
 
 // 1. Share Episode
+// 1. Share Episode (Enhanced with Deep Linking & Timestamp)
 window.shareEpisode = async function (e, idx) {
     e.stopPropagation(); // prevent card click
     const ep = allEpisodes[idx];
     const url = new URL(window.location.href);
     url.searchParams.set('ep', ep.guid);
+
+    // If sharing the currently playing episode, offer to include timestamp
+    if (idx === currentEpIndex && dom.audio.currentTime > 5) {
+        const time = Math.floor(dom.audio.currentTime);
+        const timeStr = formatTime(time);
+        if (confirm(`Поділитися з моменту ${timeStr}?`)) {
+            url.searchParams.set('t', time);
+        }
+    }
 
     try {
         await navigator.clipboard.writeText(url.toString());

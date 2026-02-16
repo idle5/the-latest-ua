@@ -1219,3 +1219,27 @@
     color: #409CFF;
     box-shadow: 0 2px 12px rgba(64, 156, 255, 0.15);
 }
+
+/* ============================================
+   SHARED EPISODE HIGHLIGHT
+   ============================================ */
+.highlight-episode {
+    border-color: var(--accent-blue) !important;
+    animation: blue-pulse 2s ease-in-out infinite;
+    position: relative;
+    z-index: 10;
+}
+
+@keyframes blue-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(64, 156, 255, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(64, 156, 255, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(64, 156, 255, 0);
+    }
+}
