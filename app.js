@@ -174,11 +174,24 @@ function renderEpisodeList() {
         const epNum = allEpisodes.length - i;
 
         // 1. Search Filter
-        const matchesSearch = !currentSearchTerm ||
-            ep.title.toLowerCase().includes(currentSearchTerm) ||
-            (ep.description && ep.description.toLowerCase().includes(currentSearchTerm)) ||
-            epNum.toString() === currentSearchTerm ||
-            `#${epNum}` === currentSearchTerm;
+        let matchesSearch = false;
+
+        if (!currentSearchTerm) {
+            matchesSearch = true;
+        } else if (currentSearchTerm.startsWith('#')) {
+            // Strict search for #Number: Only match Episode Number or Title
+            const numberMatch = `#${epNum}` === currentSearchTerm;
+            const titleMatch = ep.title.toLowerCase().includes(currentSearchTerm);
+            matchesSearch = numberMatch || titleMatch;
+        } else {
+            // Normal search: Title, Description, or simple Number
+            const titleMatch = ep.title.toLowerCase().includes(currentSearchTerm);
+            const descMatch = ep.description && ep.description.toLowerCase().includes(currentSearchTerm);
+            // Allow finding #36 by typing "36"
+            const numberMatch = epNum.toString() === currentSearchTerm || `#${epNum}` === currentSearchTerm;
+
+            matchesSearch = numberMatch || titleMatch || descMatch;
+        }
 
         // 2. Topic Filter
         const matchesTopic = !activeTopic || checkTopicMatch(ep, activeTopic);
