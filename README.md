@@ -8,7 +8,7 @@ A modern, accessible, and privacy-focused web player for the Ukrainian AI-transl
 While official versions exist on Spotify and Apple Podcasts, they often require accounts, apps, or specific devices. This project serves as an **"Unlocked Open Web"** alternative:
 - **No Login Required:** Instant access for anyone, anywhere.
 - **No App Download:** Works purely in the browser on any device (Desktop, Android, iOS).
-- **Enhanced Discovery:** Unlike standard players, this version includes **Topic Filtering** and **Search** to help researchers and listeners find specific updates (e.g., "F-16", "NATO", "Kherson") instantly.
+- **Enhanced Discovery:** Unlike standard players, this version includes **Topic Filtering** and **Search** to help researchers and listeners find specific updates (e.g., "Трамп", "НАТО", "Starlink") instantly.
 
 ## ✨ Key Features
 - **🔍 Smart Search & Deep Linking:**
