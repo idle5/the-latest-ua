@@ -170,11 +170,15 @@ function renderEpisodeList() {
     dom.episodeList.innerHTML = '';
 
     // Filter episodes
-    const filtered = allEpisodes.filter(ep => {
+    const filtered = allEpisodes.filter((ep, i) => {
+        const epNum = allEpisodes.length - i;
+
         // 1. Search Filter
         const matchesSearch = !currentSearchTerm ||
             ep.title.toLowerCase().includes(currentSearchTerm) ||
-            (ep.description && ep.description.toLowerCase().includes(currentSearchTerm));
+            (ep.description && ep.description.toLowerCase().includes(currentSearchTerm)) ||
+            epNum.toString() === currentSearchTerm ||
+            `#${epNum}` === currentSearchTerm;
 
         // 2. Topic Filter
         const matchesTopic = !activeTopic || checkTopicMatch(ep, activeTopic);
@@ -207,6 +211,8 @@ function renderEpisodeList() {
     filtered.slice(0, toShow).forEach((ep) => {
         // Find original index for playback
         const idx = allEpisodes.findIndex(e => e.guid === ep.guid);
+        // Fix: Use allEpisodes.length for absolute episode number
+        const num = allEpisodes.length - idx;
 
         const card = document.createElement('div');
         card.className = 'episode-card glass-card-2026';
@@ -221,7 +227,6 @@ function renderEpisodeList() {
         if (!isSelected && isPlayed) card.classList.add('ep-played');
         if (!isSelected && !isPlayed) card.classList.add('ep-unplayed');
 
-        const num = total - idx;
         const dateObj = new Date(ep.pubDate);
         const formattedDate = dateObj.toLocaleDateString('uk-UA', {
             day: 'numeric',
