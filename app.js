@@ -853,12 +853,23 @@ function removeFromQueue(guid) {
 
 function renderQueue() {
     // Update queue badge
+    // Update queue badge (Main FAB)
     if (dom.queueBadge) {
         if (queue.length > 0) {
             dom.queueBadge.textContent = queue.length;
             dom.queueBadge.classList.remove('hidden');
         } else {
             dom.queueBadge.classList.add('hidden');
+        }
+    }
+
+    // Update mini-player queue badge
+    if (dom.miniQueueBadge) {
+        if (queue.length > 0) {
+            dom.miniQueueBadge.textContent = queue.length;
+            dom.miniQueueBadge.classList.remove('hidden');
+        } else {
+            dom.miniQueueBadge.classList.add('hidden');
         }
     }
 
