@@ -11,14 +11,21 @@ While official versions exist on Spotify and Apple Podcasts, they often require 
 - **Enhanced Discovery:** Unlike standard players, this version includes **Topic Filtering** and **Search** to help researchers and listeners find specific updates (e.g., "F-16", "NATO", "Kherson") instantly.
 
 ## ✨ Key Features
-- **🔍 Smart Search & Topics:** Instantly filter episodes by keyword or topic (e.g., "Frontline Updates", "Geopolitics")—a feature missing from many standard RSS players.
+- **🔍 Smart Search & Deep Linking:**
+  - **Episode Search:** Find specific episodes instantly (e.g. search "#36" for Episode 36).
+  - **Deep Links:** Share links to specific episodes (`?ep=GUID`) or exact timestamps (`?ep=GUID&t=120`) that auto-scroll and highlight.
+  - **Topic Filters:** Filter by "Frontline Updates", "Geopolitics", and more.
 - **⚡ Real-time RSS:** Automatically fetches the latest episodes from the Acast feed.
 - **💎 Premium UI:** A "Glassmorphism" design inspired by modern iOS/macOS aesthetics, featuring dynamic animations and a responsive grid layout.
 - **🎧 Pro Audio Controls:**
-  - Precision playback speeds (0.5x to 2x).
-  - "Cinema Mode" Hero Player.
-  - Keyboard shortcuts for power users.
-- **🌍 Privacy First:** No tracking, no cookies, no accounts.
+  - **Queue System:** Robust queue management with mobile badge notifications.
+  - **Precision Playback:** Variable speeds (0.5x to 2x), "Cinema Mode", and keyboard shortcuts.
+- **🌍 Privacy First:** No tracking, no cookies, no accounts. LocalStorage used only for your queue and history.
+
+## 🚀 Recent Updates (Feb 2026)
+- **Mobile Experience:** Improved header layout, touch-friendly controls, and fixed queue visibility on small screens.
+- **Search Logic:** Added strict search (`#2` finds only Episode 2) vs broad search (`2` finds "2nd anniversary", etc.).
+- **Sharing:** Implemented intelligent sharing that respects your current playback position.
 
 ## 🛠️ Technical Stack
 - **Frontend:** HTML5, CSS3 (Modern Flexbox/Grid), Vanilla JavaScript (ES6+).
