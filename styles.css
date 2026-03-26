@@ -298,11 +298,6 @@ body {
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     background: var(--bg-glass-heavy);
     border-bottom: 1px solid var(--border-subtle);
-    display: flex;
-    flex-direction: column;
-}
-
-.header-content {
     padding: var(--space-md) var(--space-xl);
     display: flex;
     align-items: center;
@@ -1181,17 +1176,6 @@ kbd {
         display: none;
     }
 }
-/* Archive Strip (inside sticky header) */
-.archive-strip {
-    background: rgba(180, 130, 20, 0.15);
-    border-bottom: 1px solid rgba(255, 190, 50, 0.2);
-    color: rgba(255, 190, 50, 0.85);
-    font-size: 0.75rem;
-    text-align: center;
-    padding: 5px var(--space-xl);
-    letter-spacing: 0.01em;
-}
-
 /* Archived badge inline with brand title */
 .archived-badge {
     display: inline-block;
