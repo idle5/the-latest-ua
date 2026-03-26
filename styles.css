@@ -1176,3 +1176,35 @@ kbd {
         display: none;
     }
 }
+/* Archive Banner */
+.archive-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 24px 0;
+    padding: 14px 20px;
+    background: rgba(255, 190, 50, 0.08);
+    border-color: rgba(255, 190, 50, 0.25);
+    border-radius: var(--radius-lg);
+}
+
+.archive-banner:hover {
+    transform: none;
+    box-shadow: var(--shadow-glow), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.archive-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+.archive-text {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.archive-text strong {
+    color: rgba(255, 190, 50, 0.9);
+    font-weight: 600;
+}
