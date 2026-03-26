@@ -298,6 +298,11 @@ body {
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     background: var(--bg-glass-heavy);
     border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+}
+
+.header-content {
     padding: var(--space-md) var(--space-xl);
     display: flex;
     align-items: center;
@@ -1176,35 +1181,30 @@ kbd {
         display: none;
     }
 }
-/* Archive Banner */
-.archive-banner {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 0 0 24px 0;
-    padding: 14px 20px;
-    background: rgba(255, 190, 50, 0.08);
-    border-color: rgba(255, 190, 50, 0.25);
-    border-radius: var(--radius-lg);
+/* Archive Strip (inside sticky header) */
+.archive-strip {
+    background: rgba(180, 130, 20, 0.15);
+    border-bottom: 1px solid rgba(255, 190, 50, 0.2);
+    color: rgba(255, 190, 50, 0.85);
+    font-size: 0.75rem;
+    text-align: center;
+    padding: 5px var(--space-xl);
+    letter-spacing: 0.01em;
 }
 
-.archive-banner:hover {
-    transform: none;
-    box-shadow: var(--shadow-glow), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.archive-icon {
-    font-size: 1.3rem;
-    flex-shrink: 0;
-}
-
-.archive-text {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    line-height: 1.4;
-}
-
-.archive-text strong {
+/* Archived badge inline with brand title */
+.archived-badge {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     color: rgba(255, 190, 50, 0.9);
-    font-weight: 600;
+    background: rgba(180, 130, 20, 0.2);
+    border: 1px solid rgba(255, 190, 50, 0.3);
+    border-radius: 4px;
+    padding: 2px 6px;
+    vertical-align: middle;
+    margin-left: 6px;
+    line-height: 1.4;
 }
